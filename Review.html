@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Review</title>
+    <style>
+        :root {
+            --bg: #0f1313;
+            --brand: #173e3a;
+            --accent: #1fb55b;
+            --ink: #ecf5f4;
+            --danger: #e74c3c;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, sans-serif;
+            color: var(--ink);
+            background: #e9ecef;
+            display: flex;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .phone {
+            width: 380px;
+            height: 780px;
+            background: var(--bg);
+            border-radius: 22px;
+            border: 8px solid #121212;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            overflow: hidden;
+            position: relative;
+            transform: translateX(20px);
+        }
+
+        .appbar {
+            background: var(--brand);
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .brand {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #2c5751;
+            display: grid;
+            place-items: center;
+            font-weight: 700
+        }
+
+        h1 {
+            font-size: 18px;
+            margin: 0
+        }
+
+        /* 右上角头像（白色描边 + 人物线条） */
+        .userbtn {
+            width: 30px;
+            height: 30px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            background: #123836;
+            border: 1.5px solid rgba(255, 255, 255, .9);
+        }
+
+        .userbtn svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2
+        }
+
+        .content {
+            height: calc(100% - 56px - 84px);
+            overflow: auto;
+            padding: 12px
+        }
+
+        .info {
+            background: #1b2222;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .row {
+            background: #1b2222;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: grid;
+            grid-template-columns: 1fr 96px 56px 40px;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* 名称：多行显示、绝不截断 */
+        .name {
+            font-weight: 800;
+            font-size: 12px;
+            line-height: 1.15;
+            white-space: normal;
+            overflow: visible;
+            word-break: break-word;
+            /* 避免超长词溢出 */
+        }
+
+        .name .oos {
+            color: var(--danger);
+            margin-left: 6px;
+            font-weight: 800
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            width: 96px;
+            justify-self: start;
+            margin-left: 20px;
+        }
+
+        .step input {
+            width: 36px;
+            text-align: center;
+            background: #0f1515;
+            color: #ecf5f4;
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 6px;
+        }
+
+        .step button {
+            background: #263434;
+            color: #e6efef;
+            border: none;
+            border-radius: 6px;
+            width: 26px;
+            height: 20px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .unit {
+            font-size: 10px;
+            color: #c6d2d4;
+            justify-self: end;
+            width: 56px;
+            text-align: right
+        }
+
+        /* 删除键固定靠右对齐 */
+        .trash {
+            background: #2a1515;
+            border: 1px solid #4a2a2a;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            justify-self: end;
+            margin-right: -12px;
+            cursor: pointer;
+        }
+
+        .trash svg {
+            width: 12px;
+            height: 12px;
+            fill: #f2b3ab
+        }
+
+        /* 底部导航 */
+        .dock {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 86px;
+            background: #0d1212;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 16px;
+        }
+
+        .pillbtn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+            border-radius: 18px;
+            height: 44px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 16px;
+            border: 2px solid rgba(255, 255, 255, .08);
+        }
+
+        .pillbtn svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2
+        }
+
+        .pillbtn.cart {
+            background: var(--accent);
+            color: #fff;
+            border-color: rgba(0, 0, 0, .2);
+            height: 52px;
+            font-size: 16px;
+            font-weight: 900;
+            flex: 1.3;
+        }
+
+        .pillbtn.active {
+            outline: 2px solid rgba(13, 12, 12, .25)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone">
+        <div class="appbar">
+            <div class="brand">
+                <div class="logo">Q</div>
+                <h1>QuickOrder</h1>
+            </div>
+            <div class="userbtn" title="Profile">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 20c2-4 14-4 16 0"></path>
+                </svg>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="info">
+                <strong id="rname">Restaurant Name</strong>
+                You have <span id="count">0</span> items in your cart
+            </div>
+
+            <div id="list" class="list"></div>
+        </div>
+
+        <div class="dock">
+            <a class="pillbtn" href="10-history.html" title="History">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+                    <path d="M7 8h10M7 12h10M7 16h6"></path>
+                </svg>
+                History
+            </a>
+            <a class="pillbtn active" href="Home.html" title="Home">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 12l9-8 9 8"></path>
+                    <path d="M5 10v10h14V10"></path>
+                </svg>
+                Home
+            </a>
+            <a class="pillbtn cart" href="SubmitReminder.html" title="Submit Order">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6 6h15l-1.5 8h-12z"></path>
+                    <circle cx="9" cy="20" r="1.5"></circle>
+                    <circle cx="17" cy="20" r="1.5"></circle>
+                </svg>
+                Submit Order
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            { name: 'Bananas', qty: 4, unit: 'Kg' },
+            { name: 'Apples (Red)', qty: 2, unit: 'Kg' },
+            { name: 'Broccoli', qty: 1, unit: 'Kg' },
+            { name: 'Chicken Eggs (Large)', qty: 1, unit: 'Box' },
+            { name: 'Baguette', qty: 6, unit: 'Pc' },
+            { name: 'White Rice (Long Grain)', qty: 1, unit: 'Bag' },
+            { name: 'Chicken Breast', qty: 0, unit: 'Kg', oos: true },
+            { name: 'Salmon Fillet (Skin-on)', qty: 2, unit: 'Kg' },
+            { name: 'Bottled Water (500ml)', qty: 1, unit: 'Case' },
+            { name: 'Orange Juice (1L)', qty: 0, unit: 'Bottle' }
+        ];
+
+        // 将产品名按每 12 个字符强制换行；完整显示、不截断
+        function formatName(full, chunk = 12) {
+            let out = [];
+            for (let i = 0; i < full.length; i += chunk) {
+                out.push(full.slice(i, i + chunk));
+            }
+            return out.join('<br>');
+        }
+
+        function render() {
+            const list = document.getElementById('list');
+            list.innerHTML = data.map((it, i) => `
+        <div class="row">
+          <div class="name">${formatName(it.name)}${it.oos ? '<span class="oos">• Out of Stock</span>' : ''}</div>
+          <div class="step">
+            <button onclick="step(${i},-1)" ${it.oos ? 'disabled' : ''}>−</button>
+            <input type="number" value="${it.qty}" onchange="setQty(${i},this.value)" ${it.oos ? 'disabled' : ''}>
+            <button onclick="step(${i},1)" ${it.oos ? 'disabled' : ''}>+</button>
+          </div>
+          <div class="unit">${it.unit}</div>
+          <div class="trash" onclick="removeItem(${i})" title="Remove">
+            <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6v-2h8v2M6 6l1 14h10l1-14"/></svg>
+          </div>
+        </div>
+      `).join('');
+            document.getElementById('count').textContent = data.length;
+        }
+
+        function step(i, d) {
+            if (data[i].oos) return;
+            data[i].qty = Math.max(0, (data[i].qty || 0) + d);
+            render();
+        }
+        function setQty(i, v) {
+            if (data[i].oos) return;
+            data[i].qty = Math.max(0, parseInt(v || 0, 10));
+            render();
+        }
+        function removeItem(i) {
+            data.splice(i, 1);
+            render();
+        }
+
+        render();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Confirmation</title>
+    <style>
+        :root {
+            --bg: #0f1313;
+            --card: #141a1a;
+            --muted: #b4bfc1;
+            --brand: #173e3a;
+            --accent: #1fb55b;
+            --ink: #ecf5f4;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            color: var(--ink);
+            background: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 24px
+        }
+
+        .phone {
+            width: 380px;
+            max-width: 100%;
+            height: 780px;
+            background: var(--bg);
+            border-radius: 22px;
+            border: 8px solid #121212;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            overflow: hidden;
+            position: relative
+        }
+
+        .appbar {
+            background: #173e3a;
+            color: #ecf5f4;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+            font-weight: 800
+        }
+
+        .content {
+            height: calc(100% - 56px - 84px);
+            overflow: auto;
+            padding: 14px
+        }
+
+        .card {
+            background: #1b2222;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 14px;
+            padding: 14px
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0
+        }
+
+        .label {
+            color: #b4bfc1;
+            width: 140px
+        }
+
+        .value {
+            font-weight: 800
+        }
+
+        .sep {
+            height: 10px
+        }
+
+        .footer {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #0d1212;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            padding: 12px
+        }
+
+        .footer .bar {
+            display: flex;
+            gap: 10px
+        }
+
+        .btn {
+            flex: 1;
+            background: #1f2a2a;
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, .08);
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none
+        }
+
+        .btn.primary {
+            background: #1fb55b;
+            color: #111;
+            border-color: rgba(0, 0, 0, .2)
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #1fb55b;
+            color: #111;
+            border-radius: 999px;
+            padding: 4px 8px;
+            font-weight: 800;
+            font-size: 12px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone">
+        <div class="appbar">QuickOrder</div>
+
+        <div class="content">
+            <div class="card">
+                <div style="font-weight:800;font-size:18px;margin-bottom:6px">Thanks! Order Submitted</div>
+                <div class="row">
+                    <div class="label">Order number</div>
+                    <div class="value" id="ordNo"></div>
+                </div>
+                <div class="row">
+                    <div class="label">Submitted at</div>
+                    <div class="value" id="ts"></div>
+                </div>
+                <div class="row">
+                    <div class="label">Estimated delivery</div>
+                    <div class="value" id="estDate"></div>
+                </div>
+                <div class="sep"></div>
+                <div class="row">
+                    <div class="label">Supplier</div>
+                    <div class="value">Demo Supplier Oy</div>
+                </div>
+                <div class="row">
+                    <div class="label">Items</div>
+                    <div class="value" id="itemsCount">10</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="bar">
+                <a class="btn" href="Home.html">Back to Home</a>
+                <a class="btn primary" href="10-history.html">View History</a>
+            </div>
+        </div>
+
+        <div class="badge" id="badge">10</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const n = Math.floor(100000 + Math.random() * 900000);
+            const d = new Date(); const est = new Date(); est.setDate(d.getDate() + 2);
+            const pad = x => String(x).padStart(2, '0');
+            const ts = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+            const estStr = `${est.getFullYear()}-${pad(est.getMonth() + 1)}-${pad(est.getDate())}`;
+            document.getElementById('ordNo').textContent = n;
+            document.getElementById('ts').textContent = ts;
+            document.getElementById('estDate').textContent = estStr;
+        });
+    </script>
+</body>
+
+</html>

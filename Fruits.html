@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fruits — Product List</title>
+    <style>
+        :root {
+            --bg: #0f1313;
+            --card: #141a1a;
+            --muted: #b4bfc1;
+            --brand: #173e3a;
+            --accent: #1fb55b;
+            --ink: #ecf5f4;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            color: var(--ink);
+            background: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 24px;
+        }
+
+        .phone {
+            width: 380px;
+            max-width: 100%;
+            height: 780px;
+            background: #0f1313;
+            border-radius: 22px;
+            border: 8px solid #121212;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            overflow: hidden;
+            position: relative
+        }
+
+        .appbar {
+            background: #173e3a;
+            color: #ecf5f4;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, .06)
+        }
+
+        .appbar .brand {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #2c5751;
+            display: grid;
+            place-items: center;
+            font-weight: 700
+        }
+
+        .appbar h1 {
+            font-size: 18px;
+            margin: 0
+        }
+
+        .userbtn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #123836;
+            display: grid;
+            place-items: center;
+            border: 1.5px solid rgba(255, 255, 255, .8);
+            cursor: pointer
+        }
+
+        .userbtn svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2
+        }
+
+        .content {
+            height: calc(100% - 56px - 72px);
+            overflow: auto;
+            padding: 14px
+        }
+
+        .pgrid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px
+        }
+
+        .card {
+            background: #1b2222;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 14px;
+            overflow: hidden
+        }
+
+        .pimg {
+            height: 160px;
+            background: #263131;
+            display: grid;
+            place-items: center
+        }
+
+        .pimg img {
+            max-width: 100%;
+            max-height: 160px;
+            display: block
+        }
+
+        .pbody {
+            padding: 12px
+        }
+
+        .pname {
+            font-weight: 800
+        }
+
+        .punit {
+            color: #b4bfc1;
+            font-size: 12px
+        }
+
+        .pdesc {
+            color: #d9e1e2;
+            font-size: 13px;
+            margin-top: 6px
+        }
+
+        .meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #c6d2d4
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px
+        }
+
+        .step input {
+            width: 64px;
+            background: #0f1515;
+            color: #ecf5f4;
+            border: 1px solid rgba(255, 255, 255, .08);
+            padding: 8px;
+            border-radius: 10px;
+            outline: none
+        }
+
+        .step .btn {
+            background: #263434;
+            color: #e6efef;
+            border: none;
+            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            font-weight: 800;
+            cursor: pointer
+        }
+
+        .add {
+            margin-top: 8px
+        }
+
+        .add button {
+            width: 100%;
+            background: #1fb55b;
+            color: #111;
+            font-weight: 800;
+            border: none;
+            border-radius: 12px;
+            padding: 10px;
+            cursor: pointer
+        }
+
+        /* Bottom navbar styled like green rounded buttons */
+        .dock {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 86px;
+            background: #0d1212;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 16px;
+        }
+
+        .pillbtn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+            border-radius: 18px;
+            height: 44px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 16px;
+            border: 2px solid rgba(255, 255, 255, .08);
+        }
+
+        .pillbtn svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2
+        }
+
+        .pillbtn.cart {
+            background: var(--accent);
+            color: #fff;
+            border-color: rgba(0, 0, 0, .2);
+            height: 52px;
+            font-size: 16px;
+            font-weight: 900;
+            flex: 1.3;
+        }
+
+        /* Cart behaves like 'Go to Cart' */
+        .pillbtn.cart svg {
+            stroke: #fff
+        }
+
+        .pillbtn.active {
+            outline: 2px solid rgba(0, 0, 0, .25)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone">
+
+        <div class="appbar">
+            <div class="brand">
+                <div class="logo">Q</div>
+                <h1>QuickOrder</h1>
+            </div>
+            <div class="userbtn" title="Profile/Settings">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 20c2-4 14-4 16 0" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="pgrid">
+
+                <div class="card">
+                    <div class="pimg">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Bananas_on_black_background_02.jpg/640px-Bananas_on_black_background_02.jpg"
+                            alt="Bananas" referrerpolicy="no-referrer">
+                    </div>
+                    <div class="pbody">
+                        <div class="pname">Bananas</div>
+                        <div class="punit">Kg</div>
+                        <div class="pdesc">Fresh Cavendish bananas. Typical pack: 13 kg carton.</div>
+                        <div class="meta">
+                            <div><strong>Origin</strong><br>Ecuador, Colombia</div>
+                            <div><strong>Storage</strong><br>12–15°C; do not refrigerate</div>
+                            <div><strong>Allergens</strong><br>—</div>
+                            <div><strong>Notes</strong><br>Ideal for smoothies and desserts.</div>
+                        </div>
+                        <div class="step">
+                            <button class="btn" onclick="step(this,-1)">-</button>
+                            <input type="number" min="0" value="0">
+                            <button class="btn" onclick="step(this,1)">+</button>
+                        </div>
+                        <div class="add"><button onclick="add(this, 'Bananas', 'Kg')">Add to cart</button></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="pimg">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/640px-Red_Apple.jpg"
+                            alt="Apples (Red)" referrerpolicy="no-referrer">
+                    </div>
+                    <div class="pbody">
+                        <div class="pname">Apples (Red)</div>
+                        <div class="punit">Kg</div>
+                        <div class="pdesc">Crisp red apples (variety may vary by season).</div>
+                        <div class="meta">
+                            <div><strong>Origin</strong><br>Finland/Poland</div>
+                            <div><strong>Storage</strong><br>0–4°C, high humidity</div>
+                            <div><strong>Allergens</strong><br>—</div>
+                            <div><strong>Notes</strong><br>Great for pies and snacking.</div>
+                        </div>
+                        <div class="step">
+                            <button class="btn" onclick="step(this,-1)">-</button>
+                            <input type="number" min="0" value="0">
+                            <button class="btn" onclick="step(this,1)">+</button>
+                        </div>
+                        <div class="add"><button onclick="add(this, 'Apples (Red)', 'Kg')">Add to cart</button></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="pimg">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Orange-Fruit-Pieces.jpg/640px-Orange-Fruit-Pieces.jpg"
+                            alt="Oranges" referrerpolicy="no-referrer">
+                    </div>
+                    <div class="pbody">
+                        <div class="pname">Oranges</div>
+                        <div class="punit">Kg</div>
+                        <div class="pdesc">Juicy table oranges for fresh juice.</div>
+                        <div class="meta">
+                            <div><strong>Origin</strong><br>Spain</div>
+                            <div><strong>Storage</strong><br>5–8°C</div>
+                            <div><strong>Allergens</strong><br>—</div>
+                            <div><strong>Notes</strong><br>Rich in vitamin C.</div>
+                        </div>
+                        <div class="step">
+                            <button class="btn" onclick="step(this,-1)">-</button>
+                            <input type="number" min="0" value="0">
+                            <button class="btn" onclick="step(this,1)">+</button>
+                        </div>
+                        <div class="add"><button onclick="add(this, 'Oranges', 'Kg')">Add to cart</button></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="pimg">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Lemon.jpg?20050214195124"
+                            alt="Lemons" referrerpolicy="no-referrer">
+                    </div>
+                    <div class="pbody">
+                        <div class="pname">Lemons</div>
+                        <div class="punit">Kg</div>
+                        <div class="pdesc">Fresh lemons for cooking and drinks.</div>
+                        <div class="meta">
+                            <div><strong>Origin</strong><br>Spain</div>
+                            <div><strong>Storage</strong><br>5–10°C</div>
+                            <div><strong>Allergens</strong><br>—</div>
+                            <div><strong>Notes</strong><br>Good shelf life.</div>
+                        </div>
+                        <div class="step">
+                            <button class="btn" onclick="step(this,-1)">-</button>
+                            <input type="number" min="0" value="0">
+                            <button class="btn" onclick="step(this,1)">+</button>
+                        </div>
+                        <div class="add"><button onclick="add(this, 'Lemons', 'Kg')">Add to cart</button></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="pimg">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Seedless_grapes_of_Kallidaikurichi.jpg/640px-Seedless_grapes_of_Kallidaikurichi.jpg"
+                            alt="Grapes (Seedless)" referrerpolicy="no-referrer">
+                    </div>
+                    <div class="pbody">
+                        <div class="pname">Grapes (Seedless)</div>
+                        <div class="punit">Kg</div>
+                        <div class="pdesc">Seedless table grapes.</div>
+                        <div class="meta">
+                            <div><strong>Origin</strong><br>Italy</div>
+                            <div><strong>Storage</strong><br>0–2°C</div>
+                            <div><strong>Allergens</strong><br>—</div>
+                            <div><strong>Notes</strong><br>Keep dry; wash before use.</div>
+                        </div>
+                        <div class="step">
+                            <button class="btn" onclick="step(this,-1)">-</button>
+                            <input type="number" min="0" value="0">
+                            <button class="btn" onclick="step(this,1)">+</button>
+                        </div>
+                        <div class="add"><button onclick="add(this, 'Grapes (Seedless)', 'Kg')">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="pimg">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Ananas~May_2008-1.jpg/640px-Ananas~May_2008-1.jpg"
+                            alt="Pineapple" referrerpolicy="no-referrer">
+                    </div>
+                    <div class="pbody">
+                        <div class="pname">Pineapple</div>
+                        <div class="punit">Pc</div>
+                        <div class="pdesc">Whole pineapple.</div>
+                        <div class="meta">
+                            <div><strong>Origin</strong><br>Costa Rica</div>
+                            <div><strong>Storage</strong><br>7–10°C</div>
+                            <div><strong>Allergens</strong><br>—</div>
+                            <div><strong>Notes</strong><br>Ripen at room temperature first.</div>
+                        </div>
+                        <div class="step">
+                            <button class="btn" onclick="step(this,-1)">-</button>
+                            <input type="number" min="0" value="0">
+                            <button class="btn" onclick="step(this,1)">+</button>
+                        </div>
+                        <div class="add"><button onclick="add(this, 'Pineapple', 'Pc')">Add to cart</button></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="pimg">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Crimson_Sweet_watermelon.jpg/640px-Crimson_Sweet_watermelon.jpg"
+                            alt="Watermelon" referrerpolicy="no-referrer">
+                    </div>
+                    <div class="pbody">
+                        <div class="pname">Watermelon</div>
+                        <div class="punit">Pc</div>
+                        <div class="pdesc">Large, sweet Crimson Sweet watermelon.</div>
+                        <div class="meta">
+                            <div><strong>Origin</strong><br>Spain/Italy</div>
+                            <div><strong>Storage</strong><br>10–15°C</div>
+                            <div><strong>Allergens</strong><br>—</div>
+                            <div><strong>Notes</strong><br>Serve chilled.</div>
+                        </div>
+                        <div class="step">
+                            <button class="btn" onclick="step(this,-1)">-</button>
+                            <input type="number" min="0" value="0">
+                            <button class="btn" onclick="step(this,1)">+</button>
+                        </div>
+                        <div class="add"><button onclick="add(this, 'Watermelon', 'Pc')">Add to cart</button></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="dock">
+            <a class="pillbtn" href="10-history.html"><svg viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="14" rx="2" />
+                    <path d="M7 8h10M7 12h10M7 16h6" />
+                </svg>History</a>
+            <a class="pillbtn" href="Home.html"><svg viewBox="0 0 24 24">
+                    <path d="M3 12l9-8 9 8" />
+                    <path d="M5 10v10h14V10" />
+                </svg>Home</a>
+            <a class="pillbtn cart" href="Review.html"><svg viewBox="0 0 24 24">
+                    <path d="M6 6h15l-1.5 8h-12z" />
+                    <circle cx="9" cy="20" r="1.5" />
+                    <circle cx="17" cy="20" r="1.5" />
+                </svg>Go to Cart</a>
+        </div>
+
+    </div>
+    <script>
+        function step(btn, dir) { const i = btn.parentElement.querySelector('input'); i.value = Math.max(0, parseInt(i.value || '0') + dir); }
+        function add(btn, name, unit) {
+            const qty = parseInt(btn.closest('.pbody').querySelector('input').value || '0'); if (!qty) return;
+            const item = { name, unit, qty, cat: 'Fruits' };
+            const cart = JSON.parse(localStorage.getItem('qo_cart') || '[]'); cart.push(item); localStorage.setItem('qo_cart', JSON.stringify(cart));
+            btn.textContent = 'Added'; setTimeout(() => btn.textContent = 'Add to cart', 800);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Browse</title>
+    <style>
+        :root {
+            --bg: #0f1313;
+            --card: #141a1a;
+            --muted: #b4bfc1;
+            --brand: #173e3a;
+            --accent: #1fb55b;
+            --ink: #ecf5f4;
+            --search-bg: #1b2222;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            color: var(--ink);
+            background: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 24px;
+        }
+
+        .phone {
+            width: 380px;
+            max-width: 100%;
+            height: 780px;
+            background: var(--bg);
+            border-radius: 22px;
+            border: 8px solid #121212;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .appbar {
+            background: var(--brand);
+            color: #ecf5f4;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .appbar .brand {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #2c5751;
+            display: grid;
+            place-items: center;
+            font-weight: 700
+        }
+
+        .appbar h1 {
+            font-size: 18px;
+            margin: 0
+        }
+
+        .search {
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .1);
+            background: var(--search-bg);
+            color: var(--ink);
+            font-size: 16px;
+        }
+
+        .search input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .search input::placeholder {
+            color: var(--muted);
+        }
+
+        .userbtn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #123836;
+            display: grid;
+            place-items: center;
+            border: 1.5px solid rgba(255, 255, 255, .8);
+            cursor: pointer
+        }
+
+        .userbtn svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2
+        }
+
+
+
+        .content {
+            height: calc(100% - 56px - 86px);
+            overflow: auto;
+            padding: 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        .card {
+            background: #1b2222;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 16px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            /* top-align the body so titles line up across cards */
+            justify-content: flex-start;
+            min-height: 140px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card .img {
+            height: 72px;
+            background-size: cover;
+            background-position: center;
+            opacity: .95;
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .card .body {
+            /* slightly more padding for visual balance */
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .card strong {
+            font-size: 1rem
+        }
+
+        .card .muted {
+            color: #b4bfc1
+        }
+
+        .add {
+            position: absolute;
+            right: 10px;
+            bottom: 8px;
+            color: #b4bfc1;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .add:hover {
+            text-decoration: underline
+        }
+
+        /* bottom nav (pill 16px) */
+        /* Bottom navbar styled like green rounded buttons */
+        .dock {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 86px;
+            background: #0d1212;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 16px;
+        }
+
+        .pillbtn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+            border-radius: 18px;
+            height: 44px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 16px;
+            border: 2px solid rgba(255, 255, 255, .08);
+        }
+
+        .pillbtn svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2
+        }
+
+        .pillbtn.cart {
+            background: var(--accent);
+            color: #fff;
+            border-color: rgba(0, 0, 0, .2);
+            height: 52px;
+            font-size: 16px;
+            font-weight: 900;
+            flex: 1.3;
+        }
+
+        /* Cart behaves like 'Go to Cart' */
+        .pillbtn.cart svg {
+            stroke: #fff
+        }
+
+        .pillbtn.active {
+            outline: 2px solid rgba(0, 0, 0, .25)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone">
+        <div class="appbar">
+            <div class="brand">
+                <div class="logo">Q</div>
+                <h1>QuickOrder</h1>
+            </div>
+            <div class="userbtn">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 20c2-4 14-4 16 0" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="search">
+                <input type="text" placeholder="Search..." id="searchInput" onkeyup="filterCards()">
+            </div>
+            <div class="grid">
+
+                <div class="card" onclick="window.location.href='Fruits.html';">
+                    <div class="img"
+                        style="background-image:url('data:image/svg+xml;utf8,%0A%20%20%20%20%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%20120%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20x2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231f2525%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23293131%22/%3E%0A%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22300%22%20height%3D%22120%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2218%22%20y%3D%2284%22%20font-family%3D%22Segoe%20UI%20Emoji%2C%20Apple%20Color%20Emoji%2C%20Noto%20Color%20Emoji%22%20font-size%3D%2264%22%3E%F0%9F%8D%87%3C/text%3E%0A%20%20%20%20%3C/svg%3E%0A%20%20%20%20')">
+                    </div>
+                    <div class="body">
+                        <strong>Fruits</strong>
+                        <span class="muted">Assorted fresh fruits</span>
+                    </div>
+
+                </div>
+
+
+                <div class="card" onclick="add('Vegetables')">
+                    <div class="img"
+                        style="background-image:url('data:image/svg+xml;utf8,%0A%20%20%20%20%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%20120%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20x2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231f2525%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23293131%22/%3E%0A%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22300%22%20height%3D%22120%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2218%22%20y%3D%2284%22%20font-family%3D%22Segoe%20UI%20Emoji%2C%20Apple%20Color%20Emoji%2C%20Noto%20Color%20Emoji%22%20font-size%3D%2264%22%3E%F0%9F%A5%A6%3C/text%3E%0A%20%20%20%20%3C/svg%3E%0A%20%20%20%20')">
+                    </div>
+                    <div class="body">
+                        <strong>Vegetables</strong>
+                        <span class="muted">Greens & roots</span>
+                    </div>
+
+                </div>
+
+
+                <div class="card" onclick="add('Eggs')">
+                    <div class="img"
+                        style="background-image:url('data:image/svg+xml;utf8,%0A%20%20%20%20%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%20120%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20x2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231f2525%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23293131%22/%3E%0A%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22300%22%20height%3D%22120%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2218%22%20y%3D%2284%22%20font-family%3D%22Segoe%20UI%20Emoji%2C%20Apple%20Color%20Emoji%2C%20Noto%20Color%20Emoji%22%20font-size%3D%2264%22%3E%F0%9F%A5%9A%3C/text%3E%0A%20%20%20%20%3C/svg%3E%0A%20%20%20%20')">
+                    </div>
+                    <div class="body">
+                        <strong>Eggs</strong>
+                        <span class="muted">Eggs & alternatives</span>
+                    </div>
+
+                </div>
+
+
+                <div class="card" onclick="add('Bakery')">
+                    <div class="img"
+                        style="background-image:url('data:image/svg+xml;utf8,%0A%20%20%20%20%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%20120%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20x2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231f2525%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23293131%22/%3E%0A%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22300%22%20height%3D%22120%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2218%22%20y%3D%2284%22%20font-family%3D%22Segoe%20UI%20Emoji%2C%20Apple%20Color%20Emoji%2C%20Noto%20Color%20Emoji%22%20font-size%3D%2264%22%3E%F0%9F%A5%96%3C/text%3E%0A%20%20%20%20%3C/svg%3E%0A%20%20%20%20')">
+                    </div>
+                    <div class="body">
+                        <strong>Bakery</strong>
+                        <span class="muted">Breads & pastries</span>
+                    </div>
+
+                </div>
+
+
+                <div class="card" onclick="add('Rice & Grains')">
+                    <div class="img"
+                        style="background-image:url('data:image/svg+xml;utf8,%0A%20%20%20%20%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%20120%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20x2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231f2525%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23293131%22/%3E%0A%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22300%22%20height%3D%22120%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2218%22%20y%3D%2284%22%20font-family%3D%22Segoe%20UI%20Emoji%2C%20Apple%20Color%20Emoji%2C%20Noto%20Color%20Emoji%22%20font-size%3D%2264%22%3E%F0%9F%8D%9A%3C/text%3E%0A%20%20%20%20%3C/svg%3E%0A%20%20%20%20')">
+                    </div>
+                    <div class="body">
+                        <strong>Rice & Grains</strong>
+                        <span class="muted">Rice, noodles, flour</span>
+                    </div>
+
+                </div>
+
+
+                <div class="card" onclick="add('Meat')">
+                    <div class="img"
+                        style="background-image:url('data:image/svg+xml;utf8,%0A%20%20%20%20%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%20120%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20x2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231f2525%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23293131%22/%3E%0A%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22300%22%20height%3D%22120%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2218%22%20y%3D%2284%22%20font-family%3D%22Segoe%20UI%20Emoji%2C%20Apple%20Color%20Emoji%2C%20Noto%20Color%20Emoji%22%20font-size%3D%2264%22%3E%F0%9F%A5%A9%3C/text%3E%0A%20%20%20%20%3C/svg%3E%0A%20%20%20%20')">
+                    </div>
+                    <div class="body">
+                        <strong>Meat</strong>
+                        <span class="muted">Beef, pork, poultry</span>
+                    </div>
+
+                </div>
+
+
+                <div class="card" onclick="add('Seafood')">
+                    <div class="img"
+                        style="background-image:url('data:image/svg+xml;utf8,%0A%20%20%20%20%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%20120%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20x2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231f2525%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23293131%22/%3E%0A%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22300%22%20height%3D%22120%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2218%22%20y%3D%2284%22%20font-family%3D%22Segoe%20UI%20Emoji%2C%20Apple%20Color%20Emoji%2C%20Noto%20Color%20Emoji%22%20font-size%3D%2264%22%3E%F0%9F%90%9F%3C/text%3E%0A%20%20%20%20%3C/svg%3E%0A%20%20%20%20')">
+                    </div>
+                    <div class="body">
+                        <strong>Seafood</strong>
+                        <span class="muted">Fish & shellfish</span>
+                    </div>
+
+                </div>
+
+
+                <div class="card" onclick="add('Beverages')">
+                    <div class="img"
+                        style="background-image:url('data:image/svg+xml;utf8,%0A%20%20%20%20%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%20120%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20x2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231f2525%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23293131%22/%3E%0A%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22300%22%20height%3D%22120%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2218%22%20y%3D%2284%22%20font-family%3D%22Segoe%20UI%20Emoji%2C%20Apple%20Color%20Emoji%2C%20Noto%20Color%20Emoji%22%20font-size%3D%2264%22%3E%F0%9F%A7%83%3C/text%3E%0A%20%20%20%20%3C/svg%3E%0A%20%20%20%20')">
+                    </div>
+                    <div class="body">
+                        <strong>Beverages</strong>
+                        <span class="muted">Juice & drinks</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="dock">
+            <a class="pillbtn" href="10-history.html" title="History">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+                    <path d="M7 8h10M7 12h10M7 16h6"></path>
+                </svg>
+                History
+            </a>
+            <a class="pillbtn" href="Home.html" title="Home">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 12l9-8 9 8"></path>
+                    <path d="M5 10v10h14V10"></path>
+                </svg>
+                Home
+            </a>
+            <a class="pillbtn cart" href="Review.html" title="Go to Cart">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6 6h15l-1.5 8h-12z"></path>
+                    <circle cx="9" cy="20" r="1.5"></circle>
+                    <circle cx="17" cy="20" r="1.5"></circle>
+                </svg>
+                Go to Cart
+            </a>
+        </div>
+    </div>
+    <script>
+        function add(cat) { alert(cat + ' added (demo)'); }
+
+        function filterCards() {
+            const searchInput = document.getElementById('searchInput');
+            const filter = searchInput.value.toLowerCase();
+            const cards = document.getElementsByClassName('card');
+
+            for (let card of cards) {
+                const title = card.querySelector('strong').textContent.toLowerCase();
+                const description = card.querySelector('.muted').textContent.toLowerCase();
+                if (title.includes(filter) || description.includes(filter)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
