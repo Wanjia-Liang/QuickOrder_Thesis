@@ -375,7 +375,7 @@
         // 提交逻辑：先检查 Orange Juice(1L)，若为 0 则提示 2 秒；之后再次点击才跳转
         let warnedOnce = false;
         document.getElementById('submitBtn').addEventListener('click', (e) => {
-            e.preventDefault();
+           
             const oj = data.find(x => x.name === 'Orange Juice (1L)');
             if (oj && oj.qty === 0 && !warnedOnce) {
                 const t = document.getElementById('toast');
@@ -395,5 +395,6 @@
 
 
 </html>
+
 
 
