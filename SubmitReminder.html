@@ -319,82 +319,91 @@
         <div class="toast" id="toast">Orange Juice (1L) quantity missing</div>
     </div>
 
-    <script>
-        // 数据：把 Chicken Breast 改为 Beef Striploin 2 Kg；Orange Juice(1L) 初始为 0 以触发提示
-        const data = [
-            { name: 'Bananas', qty: 4, unit: 'Kg' },
-            { name: 'Apples (Red)', qty: 2, unit: 'Kg' },
-            { name: 'Broccoli', qty: 3, unit: 'Kg' },
-            { name: 'Chicken Eggs (Large)', qty: 1, unit: 'Box' },
-            { name: 'Baguette', qty: 6, unit: 'Pc' },
-            { name: 'White Rice (Long Grain)', qty: 1, unit: 'Bag' },
-            { name: 'Beef Striploin', qty: 2, unit: 'Kg' },               // ← 替换并设为 2 Kg
-            { name: 'Salmon Fillet (Skin-on)', qty: 2, unit: 'Kg' },
-            { name: 'Bottled Water (500ml)', qty: 1, unit: 'Case' },
-            { name: 'Orange Juice (1L)', qty: 0, unit: 'Bottle' }         // ← 0 以触发提示
-        ];
+<script>
+    // 数据：把 Chicken Breast 改为 Beef Striploin 2 Kg；Orange Juice(1L) 初始为 0 以触发提示
+    const data = [
+        { name: 'Bananas', qty: 4, unit: 'Kg' },
+        { name: 'Apples (Red)', qty: 2, unit: 'Kg' },
+        { name: 'Broccoli', qty: 3, unit: 'Kg' },
+        { name: 'Chicken Eggs (Large)', qty: 1, unit: 'Box' },
+        { name: 'Baguette', qty: 6, unit: 'Pc' },
+        { name: 'White Rice (Long Grain)', qty: 1, unit: 'Bag' },
+        { name: 'Beef Striploin', qty: 2, unit: 'Kg' },
+        { name: 'Salmon Fillet (Skin-on)', qty: 2, unit: 'Kg' },
+        { name: 'Bottled Water (500ml)', qty: 1, unit: 'Case' },
+        { name: 'Orange Juice (1L)', qty: 0, unit: 'Bottle' }   // ← 用于触发提示
+    ];
 
-        // 超过 12 个字符强制在第 12 个字符后换行，但显示完整内容
-        function formattedName(name) {
-            const limit = 12;
-            return name.length > limit ? name.slice(0, limit) + '<br>' + name.slice(limit) : name;
-        }
+    // 名称换行
+    function formattedName(name) {
+        const limit = 12;
+        return name.length > limit ? name.slice(0, limit) + '<br>' + name.slice(limit) : name;
+    }
 
-        function render() {
-            const list = document.getElementById('list');
-            list.innerHTML = data.map((it, i) => `
-        <div class="row">
-          <div class="name">${formattedName(it.name)}</div>
-          <div class="step">
-            <button onclick="step(${i},-1)">−</button>
-            <input type="number" value="${it.qty}" onchange="setQty(${i},this.value)">
-            <button onclick="step(${i},1)">+</button>
-          </div>
-          <div class="unit">${it.unit}</div>
-          <div class="trash" onclick="removeItem(${i})" title="Remove">
-            <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6v-2h8v2M6 6l1 14h10l1-14"/></svg>
-          </div>
-        </div>
-      `).join('');
-            document.getElementById('count').textContent = data.length;
-        }
+    function render() {
+        const list = document.getElementById('list');
+        list.innerHTML = data.map((it, i) => `
+            <div class="row">
+                <div class="name">${formattedName(it.name)}</div>
+                <div class="step">
+                    <button onclick="step(${i},-1)">−</button>
+                    <input type="number" value="${it.qty}" onchange="setQty(${i},this.value)">
+                    <button onclick="step(${i},1)">+</button>
+                </div>
+                <div class="unit">${it.unit}</div>
+                <div class="trash" onclick="removeItem(${i})" title="Remove">
+                    <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6v-2h8v2M6 6l1 14h10l1-14"/></svg>
+                </div>
+            </div>
+        `).join('');
+        document.getElementById('count').textContent = data.length;
+    }
 
-        function step(i, d) {
-            data[i].qty = Math.max(0, (data[i].qty || 0) + d);
-            render();
-        }
-        function setQty(i, v) {
-            data[i].qty = Math.max(0, parseInt(v || 0, 10));
-            render();
-        }
-        function removeItem(i) {
-            data.splice(i, 1);
-            render();
-        }
-
-        // 提交逻辑：先检查 Orange Juice(1L)，若为 0 则提示 2 秒；之后再次点击才跳转
-        let warnedOnce = false;
-        document.getElementById('submitBtn').addEventListener('click', (e) => {
-           
-            const oj = data.find(x => x.name === 'Orange Juice (1L)');
-            if (oj && oj.qty === 0 && !warnedOnce) {
-                const t = document.getElementById('toast');
-                t.textContent = 'Orange Juice (1L) quantity missing';
-                t.style.display = 'block';
-                warnedOnce = true;
-                setTimeout(() => { t.style.display = 'none'; }, 2000);
-                return;
-            }
-            // 第二次点击（或已修正数量）跳转
-            window.location.href = '09-confirm.html';
-        });
-
+    function step(i, d) {
+        data[i].qty = Math.max(0, (data[i].qty || 0) + d);
         render();
-    </script>
+    }
+
+    function setQty(i, v) {
+        data[i].qty = Math.max(0, parseInt(v || 0, 10));
+        render();
+    }
+
+    function removeItem(i) {
+        data.splice(i, 1);
+        render();
+    }
+
+    // —— 提交按钮逻辑 ——  
+    let warnedOnce = false;
+
+    document.getElementById('submitBtn').addEventListener('click', (e) => {
+        const oj = data.find(x => x.name === 'Orange Juice (1L)');
+
+        // 第一次点击：发现缺数量 -> 显示提示，不跳转
+        if (oj && oj.qty === 0 && !warnedOnce) {
+            const t = document.getElementById('toast');
+            t.textContent = 'Orange Juice (1L) quantity missing';
+            t.style.display = 'block';
+            warnedOnce = true;
+
+            setTimeout(() => { t.style.display = 'none'; }, 2000);
+            e.preventDefault();  // ← 必须阻止默认跳转
+            return;
+        }
+
+        // 第二次点击或数量已修改 → 跳转到 Confirmation.html
+        window.location.href = 'Confirmation.html';
+    });
+
+    render();
+</script>
+
 </body>
 
 
 </html>
+
 
 
 
